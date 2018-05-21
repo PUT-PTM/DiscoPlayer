@@ -27,7 +27,31 @@
  */
 #ifndef TM_DEFINES_H
 #define TM_DEFINES_H
-		#define TM_DISCO_STM32F4_DISCOVERY
+#define TM_DISCO_STM32F4_DISCOVERY
+
+/* Use SPI communication with SDCard */
+#define	FATFS_USE_SDIO				0
+
+/* Select your SPI settings */
+#define FATFS_SPI				SPI1
+#define FATFS_SPI_PINSPACK		TM_SPI_PinsPack_1
+
+/* Custom CS pin for SPI communication */
+#define FATFS_CS_PORT		GPIOB
+#define FATFS_CS_PIN		GPIO_Pin_5
+
+/* Use detect pin */
+#define FATFS_USE_DETECT_PIN			1
+/* Use writeprotect pin */
+#define FATFS_USE_WRITEPROTECT_PIN		1
+
+/* If you want to overwrite default CD pin, then change this settings */
+#define FATFS_USE_DETECT_PIN_PORT		GPIOB
+#define FATFS_USE_DETECT_PIN_PIN		GPIO_PIN_6
+
+/* If you want to overwrite default WP pin, then change this settings */
+#define FATFS_USE_WRITEPROTECT_PIN_PORT		GPIOB
+#define FATFS_USE_WRITEPROTECT_PIN_PIN		GPIO_PIN_7
 
 /* Put your global defines for all libraries here used in your project */
 /* Control pins */
@@ -36,7 +60,7 @@
 #define HD44780_RS_PIN			GPIO_Pin_2
 /* E - Enable pin */
 #define HD44780_E_PORT			GPIOB
-#define HD44780_E_PIN				GPIO_Pin_7
+#define HD44780_E_PIN			GPIO_Pin_7
 
 /* D4 - Data 4 pin */
 #define HD44780_D4_PORT			GPIOC
@@ -49,6 +73,6 @@
 #define HD44780_D6_PIN			GPIO_Pin_12
 /* D7 - Data 7 pin */
 #define HD44780_D7_PORT			GPIOB
-#define HD44780_D7_PIN			GPIO_Pin_13
+#define HD44780_D7_PIN			GPIO_Pin_10
 
 #endif
