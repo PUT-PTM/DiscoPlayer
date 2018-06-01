@@ -46,15 +46,15 @@ void TimingDelay_Decrement(void) {
 void SysTick_Handler(void) {
 #endif
 	uint8_t i;
-	
+
 	TM_Time++;
 	if (TM_Time2 != 0x00) {
 		TM_Time2--;
 	}
-	
+
 	/* Call user function */
 	TM_DELAY_1msHandler();
-	
+
 	/* Check custom timers */
 	for (i = 0; i < CustomTimers.Count; i++) {
 		/* Check if timer is enabled */
@@ -65,15 +65,15 @@ void SysTick_Handler(void) {
 		) {
 			/* Decrease counter */
 			CustomTimers.Timers[i]->CNT--;
-			
+
 			/* Check if count is zero */
 			if (CustomTimers.Timers[i]->CNT == 0) {
 				/* Call user callback function */
 				CustomTimers.Timers[i]->Callback(CustomTimers.Timers[i]->UserParameters);
-				
+
 				/* Set new counter value */
 				CustomTimers.Timers[i]->CNT = CustomTimers.Timers[i]->ARR;
-				
+
 				/* Disable timer if auto reload feature is not used */
 				if (!CustomTimers.Timers[i]->AutoReload) {
 					/* Disable counter */

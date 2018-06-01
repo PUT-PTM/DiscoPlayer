@@ -14,13 +14,13 @@
 #define LED_Strip_AHB							RCC_AHB1Periph_GPIOA
 #define LED_Strip_AHB_Cmd						RCC_AHB1PeriphClockCmd
 #define LED_Seg_0_Pin							GPIO_Pin_0
-#define LED_Seg_1_Pin							GPIO_Pin_1
-#define LED_Seg_2_Pin							GPIO_Pin_2
-#define LED_Seg_3_Pin							GPIO_Pin_3
-#define LED_Seg_4_Pin							GPIO_Pin_4
-#define LED_Seg_5_Pin							GPIO_Pin_5
-#define LED_Seg_6_Pin							GPIO_Pin_6
-#define LED_Seg_7_Pin							GPIO_Pin_7
+//#define LED_Seg_1_Pin							GPIO_Pin_1
+//#define LED_Seg_2_Pin							GPIO_Pin_2
+//#define LED_Seg_3_Pin							GPIO_Pin_3
+//#define LED_Seg_4_Pin							GPIO_Pin_4
+//#define LED_Seg_5_Pin							GPIO_Pin_5
+//#define LED_Seg_6_Pin							GPIO_Pin_6
+//#define LED_Seg_7_Pin							GPIO_Pin_7
 
 #define TIM_Transmit_Burst_TIM					TIM1
 #define TIM_Transmit_Burst_APB					RCC_APB2Periph_TIM1

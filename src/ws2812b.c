@@ -58,10 +58,10 @@ static void WS2812B_GPIO_Led_Seg(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_Pin =  LED_Seg_0_Pin | LED_Seg_1_Pin | LED_Seg_2_Pin | LED_Seg_3_Pin | LED_Seg_4_Pin | LED_Seg_5_Pin | LED_Seg_6_Pin | LED_Seg_7_Pin;
+	GPIO_InitStructure.GPIO_Pin =  LED_Seg_0_Pin;// | LED_Seg_1_Pin | LED_Seg_2_Pin | LED_Seg_3_Pin | LED_Seg_4_Pin | LED_Seg_5_Pin | LED_Seg_6_Pin | LED_Seg_7_Pin;
 	GPIO_Init(LED_Strip_Port, &GPIO_InitStructure);
 
-	LED_Strip_Port->BSRRH =  LED_Seg_0_Pin | LED_Seg_1_Pin | LED_Seg_2_Pin | LED_Seg_3_Pin | LED_Seg_4_Pin | LED_Seg_5_Pin | LED_Seg_6_Pin | LED_Seg_7_Pin;
+	LED_Strip_Port->BSRRH =  LED_Seg_0_Pin;// | LED_Seg_1_Pin | LED_Seg_2_Pin | LED_Seg_3_Pin | LED_Seg_4_Pin | LED_Seg_5_Pin | LED_Seg_6_Pin | LED_Seg_7_Pin;
 }
 
 static void WS2812B_DMA_Transmit_Burst(void)
@@ -105,7 +105,7 @@ static void WS2812B_TIM_Transmit_Burst(void)
 {
 	TIM_Transmit_Burst_APB_Cmd(TIM_Transmit_Burst_APB, ENABLE);
 
-	TIM_TimeBaseStructure.TIM_Period = 67; // (67+1) / (168 MHz) = 0.4048 µs  (microseconds)
+	TIM_TimeBaseStructure.TIM_Period = 80; // (67+1) / (168 MHz) = 0.4048 µs  (microseconds)
 	TIM_TimeBaseStructure.TIM_Prescaler = 0;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
