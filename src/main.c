@@ -93,31 +93,31 @@ void TIM3_IRQHandler(void) {
 }
 void TIM5_IRQHandler(void) {
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) {
-		if (num_of_switch == 5)// next song
-				{
-			change_song = 1;
-		} else if (num_of_switch == 7)	// pause/resume
-				{
-			if (pause == 0) {
-				pause = 1;
-				TIM_Cmd(TIM3, DISABLE);
-				Codec_PauseResume(0);
-				NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
-			} else {
-				pause = 0;
-				TIM_Cmd(TIM3, ENABLE);
-				Codec_PauseResume(1);
-				NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+			if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5) == 1)// next song
+					{
+				change_song = 1;
+			} else if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_7) == 1)	// pause/resume
+					{
+				if (pause == 0) {
+					pause = 1;
+					TIM_Cmd(TIM3, DISABLE);
+					Codec_PauseResume(0);
+					NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+				} else {
+					pause = 0;
+					TIM_Cmd(TIM3, ENABLE);
+					Codec_PauseResume(1);
+					NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+				}
+			} else if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_8) == 1)// previous song
+					{
+				change_song = -1;
 			}
-		} else if (num_of_switch == 8)// previous song
-				{
-			change_song = -1;
+			num_of_switch = -1;
+			TIM_Cmd(TIM5, DISABLE);
+			TIM_SetCounter(TIM5, 0);
+			TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
 		}
-		num_of_switch = -1;
-		TIM_Cmd(TIM5, DISABLE);
-		TIM_SetCounter(TIM5, 0);
-		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
-	}
 }
 void JOINT_VIBRATION() {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
@@ -290,25 +290,28 @@ bool read_and_send(FRESULT fresult, int position, volatile ITStatus it_status,
 	}
 	fresult = f_read(&file, &sample_buffer[position], 1024 * 2, &read_bytes);
 
-	/*
-	 * TODO: FFT HERE
-	 * x - 20-300 Hz
-	 * y - 300 - 3000 Hz
-	 * z - 3000 Hz - 20KHz
-	 *
+
+//	 * TODO: FFT HERE
+//	 * x - 20-300 Hz
+//	 * y - 300 - 3000 Hz
+//	 * z - 3000 Hz - 20KHz
+//	 *
 	for(int j=0; j<8; j++)
-		{
-		WS2812B_SetRGB(0, j, x, 0, 0);
-		}
-	for(int j=8; j<16; j++)
-			{
-			WS2812B_SetRGB(0, j, 0, y,0);
-			}
-	for(int j=16; j<24; j++)
-			{
-			WS2812B_SetRGB(0, j, 0,0, z);
-			}
-	 */
+				{
+			if(sample_buffer[0]>60000)
+				WS2812B_SetRGB(0, j, sample_buffer[0]*0.1, 0, 0);
+				}
+			for(int j=8; j<16; j++)
+					{
+				if(sample_buffer[128]>60000)
+					WS2812B_SetRGB(0, j, 0, sample_buffer[128]*0.3,0);
+					}
+			for(int j=16; j<24; j++)
+					{
+				if(sample_buffer[64]>60000)
+					WS2812B_SetRGB(0, j, 0,0, sample_buffer[64]*0.5);
+					}
+
 	DMA_ClearFlag(DMA1_Stream5, DMA_FLAG);
 
 	if (fresult != FR_OK)
@@ -336,7 +339,7 @@ void play_wav(struct List *song, FRESULT fresult) {
 		I2S_Cmd(CODEC_I2S, DISABLE);
 
 		TM_HD44780_Init(16, 2);
-		TM_HD44780_Puts(0, 0, song_name);
+		TM_HD44780_Puts(3, 0, song_name);
 
 		inits();
 		WS2812B_Init();
