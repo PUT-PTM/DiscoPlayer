@@ -59,7 +59,7 @@ K7 -> PA7
 ```
 
 ## How to compile 
-Any compiler should do the job. We recommend using System Workbech as we did.
+Any compiler should do the job. We recommend using System Workbench as we did.
 ## Future improvements 
 Our main goal for that moment is to achieve even better disco light implementation to make it work like a charm.
 ## Attributions
